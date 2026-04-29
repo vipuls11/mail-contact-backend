@@ -6,7 +6,9 @@ export const contactForm = async (req, res) => {
 console.log(req.body);
   try {
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+       host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS, // App password (not normal password)
@@ -45,7 +47,7 @@ const adminNotificationHtml = `
 `;
     // 1. Mail to YOU
     await transporter.sendMail({
-      from: email,
+      from: `"Portfolio Contact" <${process.env.EMAIL_USER}>`,
       to: process.env.EMAIL_USER,
       subject: `New Contact Form Message from ${name}`,
       html: adminNotificationHtml,
@@ -89,6 +91,7 @@ const adminNotificationHtml = `
     res.status(200).json({ message: "Message sent successfully" });
 
   } catch (error) {
+      console.error("EMAIL ERROR:", error); // 👈 ADD THIS
     res.status(500).json({ message: "Error sending message" });
   }
 };

@@ -6,7 +6,9 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 // app.use(cors({ origin: process.env.ALLOWED_ORIGINS, credentials: true}));
-const allowedOrigins = process.env.ALLOWED_ORIGINS.split(',');
+const allowedOrigins = process.env.ALLOWED_ORIGINS
+  ? process.env.ALLOWED_ORIGINS.split(',')
+  : [];
 
 app.use(cors({
   origin: function (origin, callback) {
@@ -18,7 +20,7 @@ app.use(cors({
   },
   credentials: true
 }));
-console.log("EMAIL:", process.env.EMAIL_USER, process.env.EMAIL_PASS);
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
