@@ -6,14 +6,19 @@ export const contactForm = async (req, res) => {
 console.log(req.body);
   try {
     const transporter = nodemailer.createTransport({
-       host: "smtp.gmail.com",
-      port: 465,
-      secure: true,
+     host: "smtp.gmail.com",
+  port: 587,
+  secure: false, // TLS
+  requireTLS: true,
+  family: 4, // 👈 force IPv4 (important)
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS, // App password (not normal password)
       },
     });
+  
+     await transporter.verify();
+     console.log("SMTP working");
 const adminNotificationHtml = `
   <div style="font-family: sans-serif; max-width: 600px; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden;">
     <div style="background-color: #0f172a; padding: 20px; color: #ffffff;">
