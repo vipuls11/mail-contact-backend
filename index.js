@@ -18,6 +18,8 @@ app.use(cors({
   },
   credentials: true
 }));
+console.log("EMAIL:", process.env.EMAIL_USER, process.env.EMAIL_PASS);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.get('/', (req, res) => res.send('Backend is running!'));
